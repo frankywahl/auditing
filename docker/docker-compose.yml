@@ -1,0 +1,22 @@
+version: "3.7"
+
+networks:
+  default:
+    name: usertesting
+
+services:
+  nearform:
+    image: nearform
+    build:
+      dockerfile: docker/nearform.Dockerfile
+      context: ../.
+    command: npx trail-fastify-server
+    ports:
+      - 8080:8080
+    environment:
+      TRAIL_DB_USER: postgres
+      TRAIL_DB_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      TRAIL_DB_HOST: db
+      TRAIL_DB_PORT: 5432
+      TRAIL_HTTP_HOST: 0.0.0.0
+    working_dir: /app
